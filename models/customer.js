@@ -26,6 +26,16 @@ const customerSchema = new Schema({
      ]
 })
 
+// customerSchema.pre("findOneAndDelete", async ()=>{
+//     console.log("pre middleware");
+// })
+customerSchema.post("findOneAndDelete", async (customer)=>{
+    if(customer.orders.length){
+      let res = await Order.deleteMany({_id:{$in:customer.orders}})
+      console.log(res);
+    }
+})
+
 const Order = mongoose.model("Order",orderSchema)
 const Customer = mongoose.model("customer",customerSchema)
 
@@ -66,7 +76,7 @@ const addCust = async ()=>{
     })
 
     let newOrder = new Order({
-        item : "Pizza",
+        item : "Bargar",
         price : 250
     })
 
@@ -78,9 +88,9 @@ const addCust = async ()=>{
 
 
 const delCust = async ()=>{
-    let data = await Customer.findByIdAndDelete('65e488cf9b912cd4a51e21a3');
+    let data = await Customer.findByIdAndDelete('65e49a6fda82e94e22cea1dc');
     console.log(data);
 }
 
-
+//addCust()
 delCust()
