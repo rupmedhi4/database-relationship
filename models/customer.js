@@ -41,10 +41,10 @@ const addCustomer = async()=>{
     cust1.orders.push(order2);
 
     let result = await cust1.save()
-    console.log(result);
+  //  console.log(result);
 }
 
-addCustomer()
+//addCustomer()
 
 
 // const AddOrder = async()=>{
@@ -57,3 +57,30 @@ addCustomer()
 // }
 
 // AddOrder()
+
+
+
+const addCust = async ()=>{
+    let newCust = new Customer({
+        name : "karan arjun"
+    })
+
+    let newOrder = new Order({
+        item : "Pizza",
+        price : 250
+    })
+
+    newCust.orders.push(newOrder)
+    await newOrder.save()
+    await newCust.save()
+    console.log("added new customer");
+}
+
+
+const delCust = async ()=>{
+    let data = await Customer.findByIdAndDelete('65e488cf9b912cd4a51e21a3');
+    console.log(data);
+}
+
+
+delCust()
